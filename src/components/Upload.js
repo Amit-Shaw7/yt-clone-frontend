@@ -4,9 +4,9 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import axios from 'axios';
 import storage from '../firebase';
 import { useNavigate } from 'react-router-dom';
-axios.defaults.withCredentials = true
 import { UserContext } from '../context';
 import HOST from '../host';
+axios.defaults.withCredentials = true
 
 
 
