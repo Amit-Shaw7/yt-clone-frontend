@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import axios from 'axios';
 import storage from '../firebase';
 import { useNavigate } from 'react-router-dom';
 axios.defaults.withCredentials = true
-const HOST = "http://localhost:5000/api";
+import {HOST} from '../host';
+import { UserContext } from '../context';
 
 
 
@@ -93,6 +94,7 @@ const Label = styled.label`
 
 `;
 const Upload = ({ setOpen }) => {
+    const {user} = useContext(UserContext);
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({});
 

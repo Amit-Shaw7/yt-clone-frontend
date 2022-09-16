@@ -154,9 +154,11 @@ const Navbar = () => {
           </SearchCont>
 
           <ACtionsCont>
-            <VideoCallOutlined onClick={() => setOpenUpload(true)} sx={{cursor : "pointer"}} fontSize='medium' />
             {
-              user ? <Avatar src={user.img} onClick={openLogoutModal}/> : <Link to="/login" style={{ textDecoration: "none" }}><Button>SIGN IN</Button></Link>
+              user && <VideoCallOutlined onClick={() => setOpenUpload(true)} sx={{ cursor: "pointer" }} fontSize='medium' />
+            }
+            {
+              user ? <Avatar src={user.img} onClick={openLogoutModal} /> : <Link to="/login" style={{ textDecoration: "none" }}><Button>SIGN IN</Button></Link>
             }
           </ACtionsCont>
         </Wrapper>
@@ -173,9 +175,9 @@ const Navbar = () => {
           </LogoCont>
           <ACtionsCont>
             <SearchOutlined fontSize='medium' color="inherit" />
-            <VideoCallOutlined onClick={() => setOpenUpload(true)} fontSize='medium' sx={{cursor:"pointer"}}/>
+            <VideoCallOutlined onClick={() => setOpenUpload(true)} fontSize='medium' sx={{ cursor: "pointer" }} />
             {
-              user ? <Avatar src={user.img} onClick={openLogoutModal}/> : <Link to="/login" style={{ textDecoration: "none" }}><Button>SIGN IN</Button></Link>
+              user ? <Avatar src={user.img} onClick={openLogoutModal} /> : <Link to="/login" style={{ textDecoration: "none" }}><Button>SIGN IN</Button></Link>
             }
           </ACtionsCont>
         </WrapperSMd>
