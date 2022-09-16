@@ -5,8 +5,8 @@ import axios from 'axios';
 import storage from '../firebase';
 import { useNavigate } from 'react-router-dom';
 axios.defaults.withCredentials = true
-import {HOST} from '../host';
 import { UserContext } from '../context';
+import HOST from '../host';
 
 
 
