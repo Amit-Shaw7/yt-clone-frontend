@@ -166,8 +166,9 @@ const Upload = ({ setOpen }) => {
     }, [img]);
 
     const handleUpload = async (e) => {
+        const token = localStorage.getItem("accessToken");
         e.preventDefault();
-        const res = await axios.post(`${HOST}/videos`, { ...inputs, tags }, { withCredentials: true });
+        const res = await axios.post(`${HOST}/videos`, { ...inputs, tags }, { headers: { Authorization: `Bearer ${token}` , withCredentials: true }});
         setOpen(false);
         if (res.status === 200) {
             navigate(`videos/${res.data.data._id}`);

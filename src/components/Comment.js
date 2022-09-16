@@ -61,8 +61,9 @@ const Comment = () => {
     }
     const handleKeyDown = async (e) => {
         if(e.key === "Enter"){
+            const token = localStorage.getItem("accessToken");
             const url = `${HOST}/comments/`;
-            const res = await axios.post(url , {videoId : currVideo._id , desc : text} , {withCredentials:true});
+            const res = await axios.post(url , {videoId : currVideo._id , desc : text} , { headers: { Authorization: `Bearer ${token}` , withCredentials: true }});
             // console.log(res);
             setText("");
             window.location.reload();
