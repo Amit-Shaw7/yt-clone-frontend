@@ -187,6 +187,7 @@ const Video = () => {
   // console.log(videoId);
 
   const handleLike = async () => {
+    const token = localStorage.getItem("accessToken");
     if (user) {
       if (liked) {
         const url = `${HOST}/videos/dislike/${currVideo._id}`;
@@ -210,6 +211,7 @@ const Video = () => {
     }
   }
   const handleSubscribe = async () => {
+    const token = localStorage.getItem("accessToken");
     if (user) {
       if (subscribed) {
         const url = `${HOST}/users/unsub/${currChannel._id}`;
