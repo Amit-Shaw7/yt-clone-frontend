@@ -190,7 +190,7 @@ const Video = () => {
     if (user) {
       if (liked) {
         const url = `${HOST}/videos/dislike/${currVideo._id}`;
-        const res = await axios.put(url, { withCredentials: true });
+        const res = await axios.put(url, { headers: { Authorization: `Bearer ${token}` , withCredentials: true }});
         // console.log(res.data);
         if (res.status === 200) {
           setLiked(!liked);
@@ -198,7 +198,7 @@ const Video = () => {
         }
       } else {
         const url = `${HOST}/videos/like/${currVideo._id}`;
-        const res = await axios.put(url, { withCredentials: true });
+        const res = await axios.put(url, { headers: { Authorization: `Bearer ${token}` , withCredentials: true }});
         // console.log(res.data);
         if (res.status === 200) {
           setLiked(!liked);
@@ -213,12 +213,12 @@ const Video = () => {
     if (user) {
       if (subscribed) {
         const url = `${HOST}/users/unsub/${currChannel._id}`;
-        const res = await axios.put(url, { withCredentials: true });
+        const res = await axios.put(url, { headers: { Authorization: `Bearer ${token}` , withCredentials: true }});
         setSubscribed(!subscribed);
         // console.log(res.data);
       } else {
         const url = `${HOST}/users/sub/${currChannel._id}`;
-        const res = await axios.put(url, { withCredentials: true });
+        const res = await axios.put(url, { headers: { Authorization: `Bearer ${token}` , withCredentials: true }});
         // console.log(res.data);
         setSubscribed(!subscribed);
       }

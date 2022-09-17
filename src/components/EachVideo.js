@@ -65,7 +65,7 @@ const EachVideo = ({ type, video }) => {
 
     const handleView = async () => {
         const url = `${HOST}/videos/view/${video?._id}`
-        const res = await axios.put(url , )
+        const res = await axios.put(url , { withCredentials: true })
     }
 
     useEffect(() => {
