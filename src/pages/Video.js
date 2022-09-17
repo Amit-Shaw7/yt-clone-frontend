@@ -1,7 +1,7 @@
 import { AddTaskOutlined, ReplyOutlined, ThumbDown, ThumbDownOutlined, ThumbUp, ThumbUpOutlined } from '@mui/icons-material';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Comment from '../components/Comment';
 import Recommendation from '../components/Recommendation';
@@ -191,16 +191,30 @@ const Video = () => {
     if (user) {
       if (liked) {
         const url = `${HOST}/videos/dislike/${currVideo._id}`;
-        const res = await axios.put(url, { headers: { Authorization: `Bearer ${token}` , withCredentials: true }});
-        // console.log(res.data);
+        const res = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-type": "application/json",
+          }
+        });
+        const json = await res.json();
+        // console.log(json);
         if (res.status === 200) {
           setLiked(!liked);
           setLike(like - 1);
         }
       } else {
         const url = `${HOST}/videos/like/${currVideo._id}`;
-        const res = await axios.put(url, { headers: { Authorization: `Bearer ${token}` , withCredentials: true }});
-        // console.log(res.data);
+        const res = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-type": "application/json",
+          }
+        });
+        const json = await res.json();
+        // console.log(json);
         if (res.status === 200) {
           setLiked(!liked);
           setLike(like + 1);
@@ -215,13 +229,27 @@ const Video = () => {
     if (user) {
       if (subscribed) {
         const url = `${HOST}/users/unsub/${currChannel._id}`;
-        const res = await axios.put(url, { headers: { Authorization: `Bearer ${token}` , withCredentials: true }});
+        const res = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-type": "application/json",
+          }
+        });
+        const json = await res.json();
+        // console.log(json);
         setSubscribed(!subscribed);
-        // console.log(res.data);
       } else {
         const url = `${HOST}/users/sub/${currChannel._id}`;
-        const res = await axios.put(url, { headers: { Authorization: `Bearer ${token}` , withCredentials: true }});
-        // console.log(res.data);
+        const res = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-type": "application/json",
+          }
+        });
+        const json = await res.json();
+        // console.log(json);
         setSubscribed(!subscribed);
       }
     } else {
@@ -264,7 +292,7 @@ const Video = () => {
             <Button> {liked ? <ThumbUp sx={{ fontSize: { xs: "16px", md: "20px" } }} /> : <ThumbUpOutlined sx={{ fontSize: { xs: "16px", md: "20px" } }} onClick={handleLike} />}{like} </Button>
             <Button>  {liked ? <ThumbDownOutlined onClick={handleLike} sx={{ fontSize: { xs: "16px", md: "20px" } }} /> : <ThumbDown sx={{ fontSize: { xs: "16px", md: "20px" } }} />} </Button>
             <Button sx={{ fontSize: { xs: "16px" } }}><ReplyOutlined sx={{ fontSize: { xs: "16px", md: "20px" } }} /> Share</Button>
-            <Button sx={{ fontSize: { xs: "16px" } }}><AddTaskOutlined sx={{ fontSize: { xs: "16px", md:"20px" } }} /> Save</Button>
+            <Button sx={{ fontSize: { xs: "16px" } }}><AddTaskOutlined sx={{ fontSize: { xs: "16px", md: "20px" } }} /> Save</Button>
           </Buttons>
         </Details>
         <Hr />

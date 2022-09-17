@@ -38,6 +38,7 @@ const UserProvider = ({ children }) => {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': `Bearer ${token}`, // notice the Bearer before your token
+                        
                     },
                 });
                 const res = await jsonRes.json();
