@@ -130,64 +130,58 @@ const Home = ({ type, setDarkMOde, darkMode }) => {
     return (
         <>
             {
-                videos
+                videos === null ? <Loader /> :
 
-                    ?
+                    videos?.length === 0
+                        ?
+                        <NoContent>No videos Found</NoContent>
+                        :
 
-                    videos.length === 0
-                    ?
-                    <NoContent>No videos Found</NoContent>
-                    :
+                        <Container>
+                            {
+                                videos.length !== 0 && videos.map((video) => (
+                                    <EachVideo key={video._id} video={video} />
+                                ))
+                            }
 
-                    <Container>
-                        {
-                            videos.length !== 0 && videos.map((video) => (
-                                <EachVideo key={video._id} video={video} />
-                            ))
-                        }
+                            <BottomNavigaion>
+                                <WrapperLg>
+                                    <Items>
+                                        <Link to="/" style={{ textDecoration: "none" }}>
+                                            <Item>
+                                                <HomeOutlined />
+                                                <Text>Home</Text>
+                                            </Item>
+                                        </Link>
+                                        <Link to="/trend" style={{ textDecoration: "none" }}>
+                                            <Item>
+                                                <ExploreOutlined />
+                                                <Text>Explore</Text>
+                                            </Item>
+                                        </Link>
+                                        <Link to={`${user ? "/subscribed" : "/login"}`} style={{ textDecoration: "none" }}>
+                                            <Item>
+                                                <SubscriptionsOutlined />
+                                                <Text>Subscription</Text>
+                                            </Item>
+                                        </Link>
 
-                        <BottomNavigaion>
-                            <WrapperLg>
-                                <Items>
-                                    <Link to="/" style={{ textDecoration: "none" }}>
-                                        <Item>
-                                            <HomeOutlined />
-                                            <Text>Home</Text>
+                                        <Link to="/" style={{ textDecoration: "none" }}>
+                                            <Item>
+                                                <HistoryOutlined />
+                                                <Text>History</Text>
+                                            </Item>
+                                        </Link>
+                                        <Item onClick={() => setDarkMOde(!darkMode)}>
+                                            <SettingsOutlined />
+                                            <Text>{!darkMode ? "Dark Mode" : "Light Mode"}</Text>
                                         </Item>
-                                    </Link>
-                                    <Link to="/trend" style={{ textDecoration: "none" }}>
-                                        <Item>
-                                            <ExploreOutlined />
-                                            <Text>Explore</Text>
-                                        </Item>
-                                    </Link>
-                                    <Link to={`${user ? "/subscribed" : "/login"}`} style={{ textDecoration: "none" }}>
-                                        <Item>
-                                            <SubscriptionsOutlined />
-                                            <Text>Subscription</Text>
-                                        </Item>
-                                    </Link>
-
-                                    <Link to="/" style={{ textDecoration: "none" }}>
-                                        <Item>
-                                            <HistoryOutlined />
-                                            <Text>History</Text>
-                                        </Item>
-                                    </Link>
-                                    <Item onClick={() => setDarkMOde(!darkMode)}>
-                                        <SettingsOutlined />
-                                        <Text>{!darkMode ? "Dark Mode" : "Light Mode"}</Text>
-                                    </Item>
 
 
-                                </Items>
-                            </WrapperLg>
-                        </BottomNavigaion>
-                    </Container>
-
-                    :
-
-            <Loader />
+                                    </Items>
+                                </WrapperLg>
+                            </BottomNavigaion>
+                        </Container>
             }
         </>
     )
