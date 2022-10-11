@@ -96,7 +96,7 @@ const NoContent = styled.div`
 `;
 
 const Home = ({ type, setDarkMOde, darkMode }) => {
-    const [videos, setVideos] = useState([]);
+    const [videos, setVideos] = useState(null);
     const { user } = useContext(UserContext);
 
     const params = useParams();
