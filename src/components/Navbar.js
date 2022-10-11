@@ -1,14 +1,10 @@
 import { Menu, SearchOutlined, UploadFileOutlined, VideoCallOutlined, YouTube } from '@mui/icons-material';
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from '../context';
 import { md } from '../responsive';
 import Upload from './Upload';
-
-// const handleSidebar = () => {
-//   setOpenedSidebar(!openedSidebar);
-// }
 
 const Container = styled.div`
     display: flex;
@@ -51,6 +47,7 @@ const LogoCont = styled.div`
 `;
 const SearchCont = styled.div`
   color: ${({ theme }) => theme.text};
+  height: 40px;
   display: flex;
   width: 40%;
   align-items: center;
@@ -70,22 +67,23 @@ const ACtionsCont = styled.div`
 `;
 
 const Input = styled.input`
-  position: absolute;
+  /* position: absolute; */
   width:100%;
-  height:95%;
+  height:75%;
+  outline: none;
   padding: 5px;
-  border-radius: 5px;
-  background-color: transparent;
+  /* border-radius: 1px; */
+  background-color: ${({ theme }) => theme.bg};
   color : ${({ theme }) => theme.text};
   border: 1px solid ${({ theme }) => theme.text};
-  
+  font-size: 1rem;
 `;
-const Button = styled.button`
-  padding: 7px 10px;
-  background-color: transparent;
-  color: rgb(44, 44, 255);
-  border: 1px solid rgb(44, 44, 255);
-`;
+// const Button = styled.button`
+//   padding: 7px 10px;
+//   background-color: transparent;
+//   color: rgb(44, 44, 255);
+//   border: 1px solid rgb(44, 44, 255);
+// `;
 const Avatar = styled.img`
   height: 50px;
   width: 50px;
@@ -95,8 +93,9 @@ const Avatar = styled.img`
   cursor: pointer;
 `;
 const LogoutModal = styled.div`
-  height: 40px;
-  width: 100px;
+  height: 80px;
+  width: 110px;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.bg};
@@ -115,14 +114,33 @@ const Text = styled.span`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.bg};
-
+  border-bottom: 1px solid ${({ theme }) => theme.hr};
+  transition: all 0.3s ease-in-out;
+  margin: 0px 5px;
+  &:hover{
+    background-color: ${({ theme }) => theme.bgLighter};
+    transition: all 0.3s ease-in-out;
+  }
 `;
 
-const Navbar = () => {
+const Button = styled.button`
+  padding: 7px 17px;
+  color: inherit;
+  background-color: ${({ theme }) => theme.bgLighter};
+  outline: none;
+  border: 2px solid ${({ theme }) => theme.hr};
+  transition: all 0.3s ease-in-out;
+
+  &:hover{
+    background-color: ${({ theme }) => theme.bg};;
+    transition: all 0.3s ease-in-out;
+  }
+`;
+
+const Navbar = ({ searchText, setSearchText, handleSearchText, handleSearch }) => {
   const { user } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [openUpload, setOpenUpload] = useState(false);
-  const navigate = useNavigate();
   const openLogoutModal = () => {
     console.log(open);
     setOpen(!open);
@@ -149,13 +167,13 @@ const Navbar = () => {
           </LogoCont>
 
           <SearchCont>
-            <Input placeholder='Search' />
-            <SearchOutlined fontSize='medium' color="inherit" />
+            <Input value={searchText} onChange={(e) => { handleSearchText(e) }} placeholder='Search' />
+            <Link style={{textDecoration:"none" , color:"inherit"}} to={`/search/title/${searchText}`}><Button onClick={handleSearch}><SearchOutlined fontSize='medium' color="inherit" /></Button></Link>
           </SearchCont>
 
           <ACtionsCont>
             {
-              user && <VideoCallOutlined onClick={() => setOpenUpload(true)} sx={{ cursor: "pointer" }} fontSize='medium' />
+              user && <VideoCallOutlined onClick={() => { setOpenUpload(true); setOpen(false) }} sx={{ cursor: "pointer" }} fontSize='medium' />
             }
             {
               user ? <Avatar src={user.img} onClick={openLogoutModal} /> : <Link to="/login" style={{ textDecoration: "none" }}><Button>SIGN IN</Button></Link>
@@ -174,7 +192,7 @@ const Navbar = () => {
             </Link>
           </LogoCont>
           <ACtionsCont>
-            <SearchOutlined fontSize='medium' color="inherit" />
+            <Link style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center" }} to="/search"><SearchOutlined fontSize='medium' color="inherit" /></Link>
             <VideoCallOutlined onClick={() => setOpenUpload(true)} fontSize='medium' sx={{ cursor: "pointer" }} />
             {
               user ? <Avatar src={user.img} onClick={openLogoutModal} /> : <Link to="/login" style={{ textDecoration: "none" }}><Button>SIGN IN</Button></Link>
@@ -184,8 +202,9 @@ const Navbar = () => {
 
         {/* For Mobile and Tablet */}
       </Container>
-      <LogoutModal onClick={handleLogout} open={open}>
-        <Text>Logout</Text>
+      <LogoutModal open={open}>
+        <Text onClick={handleLogout}>Logout</Text>
+        <Text><Link to={`/channel/${user?._id}`} style={{ textDecoration: "none", color: "inherit" }}>Your Channel</Link></Text>
       </LogoutModal>
       {
         openUpload && <Upload setOpen={setOpenUpload} />

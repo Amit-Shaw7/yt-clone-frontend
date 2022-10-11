@@ -25,15 +25,20 @@ const AddComment = styled.div`
     width: "100%",
     gap: "5px"
 
-    })};
+})};
 `;
 
 const Avatar = styled.img`
     height: 50px;
-    width: 50px;
-    border-radius: 50%;
+    width: 60px;
+    border-radius: 100%;
     background-color: gray;
     cursor: pointer;
+    outline: none;
+    border: none;
+    ${sm({
+    width: "70px",
+})};
 `;
 const Input = styled.input`
     background-color: transparent;
@@ -47,7 +52,7 @@ const Input = styled.input`
 
 
 const Comment = () => {
-    const {user , currVideo} = useContext(UserContext);
+    const { user, currVideo } = useContext(UserContext);
     const [text, setText] = useState("");
     const [hideComments, setHideComments] = useState(true);
     const [comments, setComments] = useState(null);
@@ -60,10 +65,10 @@ const Comment = () => {
         setHideComments(true);
     }
     const handleKeyDown = async (e) => {
-        if(e.key === "Enter"){
+        if (e.key === "Enter") {
             const token = localStorage.getItem("accessToken");
             const url = `${HOST}/comments/`;
-            const res = await axios.post(url , {videoId : currVideo._id , desc : text} , { headers: { Authorization: `Bearer ${token}` , withCredentials: true }});
+            const res = await axios.post(url, { videoId: currVideo._id, desc: text }, { headers: { Authorization: `Bearer ${token}`, withCredentials: true } });
             // console.log(res);
             setText("");
             window.location.reload();
@@ -82,14 +87,17 @@ const Comment = () => {
     }, [currVideo?._id])
     return (
         <Container hideComments={hideComments}>
-            <AddComment>
-                <Avatar src={user?.img}/>
-                <Input onKeyDown={(e) => handleKeyDown(e)} placeholder='Add a comment...' onChange={(e)=>setText(e.target.value)}/>
-                {hideComments ? <ArrowDropUp onClick={handleHide} /> : <ArrowDropDown onClick={handleShow} />}
-            </AddComment>
             {
-                comments && comments?.map((comment , idx) => (
-                    <Comments key={idx} comment={comment}/>
+                user && <AddComment>
+                    <Avatar src={user?.img} />
+                    <Input onKeyDown={(e) => handleKeyDown(e)} placeholder='Add a comment...' onChange={(e) => setText(e.target.value)} />
+                    {hideComments ? <ArrowDropUp onClick={handleHide} /> : <ArrowDropDown onClick={handleShow} />}
+                </AddComment>
+            }
+
+            {
+                comments && comments?.map((comment, idx) => (
+                    <Comments key={idx} comment={comment} />
                 ))
             }
         </Container>

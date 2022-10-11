@@ -1,4 +1,4 @@
-import { EmojiEventsOutlined, ExploreOutlined, FlagOutlined, HelpOutlined, HistoryOutlined, HomeOutlined, LibraryMusicOutlined, LiveTvOutlined, MovieCreationOutlined, NewspaperOutlined, SettingsOutlined, SportsEsportsOutlined, SubscriptOutlined, VideoLibraryOutlined } from '@mui/icons-material';
+import { EmojiEventsOutlined, ExploreOutlined, FlagOutlined, HelpOutlined, HistoryOutlined, HomeOutlined, LibraryMusicOutlined, LiveTvOutlined, MovieCreationOutlined, NewspaperOutlined, SettingsOutlined, SportsEsportsOutlined, SubscriptionsOutlined, VideoLibraryOutlined } from '@mui/icons-material';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -21,8 +21,23 @@ const Container = styled.div`
   flex: 0
 })}
 `;
-
+const BottomNavigaion = styled.div`
+background-color: red;
+  position: relative;
+  top: 90%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  height:60px;
+  ${customlg({
+  display: "flex"
+})}
+`;
 const Wrapper = styled.div`
+    padding: 5px 0px;
+`;
+const WrapperLg = styled.div`
     padding: 5px 0px;
 `;
 const Items = styled.div`
@@ -83,7 +98,7 @@ const Hr = styled.hr`
     border : 0.5px solid ${({ theme }) => theme.hr};
 `
 
-const Menu = ({setDarkMOde , darkMode}) => {
+const Menu = ({ setDarkMOde, darkMode }) => {
   const { user } = useContext(UserContext);
   return (
     <Container>
@@ -103,7 +118,7 @@ const Menu = ({setDarkMOde , darkMode}) => {
           </Link>
           <Link to={`${user ? "/subscribed" : "/login"}`} style={{ textDecoration: "none" }}>
             <Item>
-              <SubscriptOutlined />
+              <SubscriptionsOutlined />
               <Text>Subscription</Text>
             </Item>
           </Link>
@@ -191,10 +206,10 @@ const Menu = ({setDarkMOde , darkMode}) => {
             </Item>
           </Link>
 
-            <Item onClick={()=>setDarkMOde(!darkMode)}>
-              <SettingsOutlined />
-              <Text>Dark Mode</Text>
-            </Item>
+          <Item onClick={() => setDarkMOde(!darkMode)}>
+            <SettingsOutlined />
+            <Text>{!darkMode ? "Dark Mode" : "Light Mode"}</Text>
+          </Item>
 
 
         </Items>

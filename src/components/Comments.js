@@ -16,6 +16,8 @@ const Avatar = styled.img`
     border-radius: 50%;
     background-color: gray;
     cursor: pointer;
+    outline: none;
+    border: none;
 `;
 const CommentDetails = styled.div`
     display: flex;
@@ -44,7 +46,7 @@ const Comments = ({ comment }) => {
         const getUser = async () => {
             const url = `${HOST}/users/find/${comment.userId}`;
             const res = await axios.get(url);
-            console.log(res.data);
+            // console.log(res.data);
             setUser(res.data.user);
         }
         getUser();

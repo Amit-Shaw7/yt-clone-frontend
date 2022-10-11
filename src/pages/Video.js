@@ -9,13 +9,16 @@ import HOST from '../host';
 import { lg, md, sm } from '../responsive';
 import { format } from 'timeago.js';
 import { UserContext } from '../context';
+import Loader from './Loader';
 axios.defaults.withCredentials = true;
 
 const Container = styled.div`
     width: 100%;
-    height: 90%;
+    height: auto;
     display: flex;
-    padding: 10px 0px;
+    padding: 10px 0px 10px 5px;
+    /* background-color: red; */
+    overflow-x: hidden;
     color: ${({ theme }) => theme.text};
     justify-content: space-between;
     box-sizing: border-box;
@@ -62,13 +65,16 @@ const VideoFrame = styled.video`
 const ReccomendedVideos = styled.div`
     height: fit-content;
     flex: 2;
-    padding: 10px 0px;
+    padding: 10px 0px 10px 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     ${lg({
   width: "95vw",
   marginTop: "20px",
+})};
+    ${sm({
+  padding: "10px 0px"
 })}
 `;
 
@@ -276,43 +282,56 @@ const Video = () => {
   }, [videoId])
 
   return (
-    <Container>
-      <Content>
-        <VideoCont>
-          <VideoFrame
-            muted={false}
-            controls
-            src={currVideo?.videoUrl}
-          />
-        </VideoCont>
-        <Title>{currVideo?.title}</Title>
-        <Details>
-          <Info>{currVideo?.views} views . {format(currVideo?.createdAt)} </Info>
-          <Buttons>
-            <Button> {liked ? <ThumbUp sx={{ fontSize: { xs: "16px", md: "20px" } }} /> : <ThumbUpOutlined sx={{ fontSize: { xs: "16px", md: "20px" } }} onClick={handleLike} />}{like} </Button>
-            <Button>  {liked ? <ThumbDownOutlined onClick={handleLike} sx={{ fontSize: { xs: "16px", md: "20px" } }} /> : <ThumbDown sx={{ fontSize: { xs: "16px", md: "20px" } }} />} </Button>
-            <Button sx={{ fontSize: { xs: "16px" } }}><ReplyOutlined sx={{ fontSize: { xs: "16px", md: "20px" } }} /> Share</Button>
-            <Button sx={{ fontSize: { xs: "16px" } }}><AddTaskOutlined sx={{ fontSize: { xs: "16px", md: "20px" } }} /> Save</Button>
-          </Buttons>
-        </Details>
-        <Hr />
-        <Channel>
-          <ChannelInfo>
-            <ChannelLogo src={currChannel?.img ? currChannel?.img : ""} />
-            <ChannelDetail>
-              <ChannelName>{currChannel?.name}</ChannelName>
-              <ChannelSubscriber>{subscribers} Subscribers</ChannelSubscriber>
-            </ChannelDetail>
-          </ChannelInfo>
-          <Subscribe subscribed={subscribed} onClick={handleSubscribe}>{subscribed ? "SUBSCRIBED" : "SUBSCRIBE"}</Subscribe>
-        </Channel>
-        <Hr />
-        <Comment />
-      </Content>
-      <ReccomendedVideos>
-        <Recommendation tags={currVideo?.tags} />
-      </ReccomendedVideos>
-    </Container>
+    <>
+      {
+        currChannel 
+
+          ?
+
+          <Container>
+            <Content>
+              <VideoCont>
+                <VideoFrame
+                  muted={false}
+                  controls
+                  src={currVideo?.videoUrl}
+                />
+              </VideoCont>
+              <Title>{currVideo?.title}</Title>
+              <Details>
+                <Info>{currVideo?.views} views . {format(currVideo?.createdAt)} </Info>
+                <Buttons>
+                  <Button> {liked ? <ThumbUp sx={{ fontSize: { xs: "16px", md: "20px" } }} /> : <ThumbUpOutlined sx={{ fontSize: { xs: "16px", md: "20px" } }} onClick={handleLike} />}{like} </Button>
+                  <Button>  {liked ? <ThumbDownOutlined onClick={handleLike} sx={{ fontSize: { xs: "16px", md: "20px" } }} /> : <ThumbDown sx={{ fontSize: { xs: "16px", md: "20px" } }} />} </Button>
+                  <Button sx={{ fontSize: { xs: "16px" } }}><ReplyOutlined sx={{ fontSize: { xs: "16px", md: "20px" } }} /> Share</Button>
+                  <Button sx={{ fontSize: { xs: "16px" } }}><AddTaskOutlined sx={{ fontSize: { xs: "16px", md: "20px" } }} /> Save</Button>
+                </Buttons>
+              </Details>
+              <Hr />
+              <Channel>
+                <ChannelInfo>
+                  <ChannelLogo src={currChannel?.img ? currChannel?.img : ""} />
+                  <ChannelDetail>
+                    <ChannelName>{currChannel?.name}</ChannelName>
+                    <ChannelSubscriber>{subscribers} Subscribers</ChannelSubscriber>
+                  </ChannelDetail>
+                </ChannelInfo>
+                <Subscribe subscribed={subscribed} onClick={handleSubscribe}>{subscribed ? "SUBSCRIBED" : "SUBSCRIBE"}</Subscribe>
+              </Channel>
+              <Hr />
+              <Comment />
+            </Content>
+            <Hr />
+            <ReccomendedVideos>
+              <Recommendation tags={currVideo?.tags} />
+            </ReccomendedVideos>
+          </Container>
+
+          :
+
+          <Loader />
+      }
+    </>
   )
 }
 

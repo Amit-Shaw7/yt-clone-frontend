@@ -8,9 +8,6 @@ import { UserContext } from '../context';
 import HOST from '../host';
 axios.defaults.withCredentials = true
 
-
-
-
 const Container = styled.div`
     height: 100%;
     width: 100%;

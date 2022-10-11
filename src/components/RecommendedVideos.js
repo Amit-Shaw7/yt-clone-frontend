@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { format } from 'timeago.js';
 import HOST from '../host';
-import {lg, md } from '../responsive';
+import {lg, md, sm } from '../responsive';
 axios.defaults.withCredentials = true;
 
 
@@ -17,6 +17,21 @@ const Container = styled.div`
     ${lg({
       width: "290px",
       height:"292px",
+    //   flexDirection:"column",
+      padding:"10px 10px",
+      flexWrap : "wrap"
+    })};
+    
+    ${md({
+      width: "490px",
+      height:"192px",
+    //   flexDirection:"column",
+      padding:"10px 10px",
+      flexWrap : "wrap"
+    })};
+    ${sm({
+     width: "290px",
+      height:"292px",
       flexDirection:"column",
       padding:"10px 10px",
       flexWrap : "wrap"
@@ -28,13 +43,19 @@ const Thumbnail = styled.img`
     height: 120px;
     width: 100%;
     background-color : ${({ theme }) => theme.bg};
-    object-fit: contain;
+    object-fit: cover;
     flex: 2;//check
+    border-bottom: 2px solid ${({ theme }) => theme.hr};
     ${lg({
       width: "100%",
       height:"70%"
     })};
     ${md({
+      width: "100%",
+      height: "150px",
+      objectFit: "cover",
+    })};
+    ${sm({
       width: "100%",
       height: "150px"
     })};
@@ -44,6 +65,7 @@ const Details = styled.div`
     gap: 12px;
     margin-top: 16px;
     flex: 1;
+    
     ${lg({
        padding:"0px 10px"
     })}
@@ -56,7 +78,11 @@ const ChannelLogo = styled.div`
     display: none;
     ${lg({
        display : "block",
-    })}
+    })};
+    ${md({
+       display : "none",
+    })};
+
 `;
 
 const Title = styled.span`

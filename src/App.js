@@ -1,4 +1,4 @@
-import React , { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from './utils/Theme';
 import './App.css';
@@ -10,6 +10,8 @@ import Home from './pages/Home';
 import Video from './pages/Video';
 import HOST from './host';
 import { UserContext, UserProvider } from './context';
+import Channel from './pages/Channel';
+import Search from './pages/Search';
 
 
 
@@ -31,23 +33,37 @@ const Wrapper = styled.div`
 
 function App() {
   const [darkMode, setDarkMOde] = useState(true);
-  
+  const [searchText, setSearchText] = useState('');
+
+  const handleSearchText = (e) => {
+    setSearchText(e.target.value);
+  }
+
+  const handleSearch = () => {
+    console.log(searchText)
+  }
+
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <UserProvider>
         <Container>
           <BrowserRouter>
-            <Navbar />
+            <Navbar handleSearch={handleSearch} handleSearchText={handleSearchText} searchText={searchText} setSearchText={setSearchText} />
             <Wrapper>
-              <Menu darkMode={darkMode} setDarkMOde={setDarkMOde}/>
+              <Menu darkMode={darkMode} setDarkMOde={setDarkMOde} />
               <Main>
                 <Routes>
-                  <Route exact path='/' element={<Home type="random" />} />
-                  <Route exact path='/trend' element={<Home type="trend" />} />
-                  <Route exact path='/subscribed' element={<Home type="subscribed" />} />
+                  <Route exact path={`/search/title/:search`} element={<Home darkMode={darkMode} setDarkMOde={setDarkMOde}/>} />
+                  <Route exact path='/' element={<Home darkMode={darkMode} setDarkMOde={setDarkMOde} type="random" />} />
+                  <Route exact path='/trend' element={<Home darkMode={darkMode} setDarkMOde={setDarkMOde} type="trend" />} />
+                  <Route exact path='/subscribed' element={<Home darkMode={darkMode} setDarkMOde={setDarkMOde} type="subscribed" />} />
                   <Route exact path='/videos/:id' element={<Video />} />
                   <Route exact path='/login' element={<Login />} />
+                  <Route exact path='/channel/:id' element={<Channel admin={"true"}/>} />
+                  {/* <Route exact path='/channel/:id' element={<Search />} /> */}
+                  <Route exact path='/search' element={<Search handleSearch={handleSearch} handleSearchText={handleSearchText} searchText={searchText} setSearchText={setSearchText} />} />
+
                 </Routes>
               </Main>
             </Wrapper>
